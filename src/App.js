@@ -12,21 +12,32 @@ function App() {
     form.action = "https://seoah29.cafe24.com/exec/front/order/basket/";
     form.target = "_blank";
 
+    // 필수: 상품 번호
     const productNoInput = document.createElement("input");
+    productNoInput.type = "hidden";
     productNoInput.name = "product_no";
-    productNoInput.value = "10"; // 상품 번호
+    productNoInput.value = "10"; // 실제 상품 번호
     form.appendChild(productNoInput);
 
-    // 옵션 코드들 삽입
+    // 옵션 타입: 일반 옵션 = "1"
+    const optionTypeInput = document.createElement("input");
+    optionTypeInput.type = "hidden";
+    optionTypeInput.name = "option_type";
+    optionTypeInput.value = "1";
+    form.appendChild(optionTypeInput);
+
+    // 옵션 코드들
     [collarCode, sleeveCode, buttonCode].forEach((code) => {
       const input = document.createElement("input");
       input.type = "hidden";
-      input.name = "option_code[]";
+      input.name = "selected_option[]"; // 또는 option_code[]
       input.value = code;
       form.appendChild(input);
     });
 
+    // 수량
     const qtyInput = document.createElement("input");
+    qtyInput.type = "hidden";
     qtyInput.name = "quantity";
     qtyInput.value = "1";
     form.appendChild(qtyInput);
