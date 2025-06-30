@@ -5,36 +5,40 @@ function App() {
   const [sleeveCode, setSleeveCode] = useState("O000000D");
   const [buttonCode, setButtonCode] = useState("O000000C");
 
+  const getImage = () => {
+    // 옵션에 따라 이미지 파일명 결정
+    if (collarCode === "O000000E") return "/collar1.png";
+    if (sleeveCode === "O000000D") return "/sleeve1.png";
+    if (buttonCode === "O000000C") return "/button1.png";
+    return "/base_shirt.png";
+  };
+
   const handleAddToCart = () => {
     const form = document.createElement("form");
     form.method = "POST";
     form.action = "https://seoah29.cafe24.com/exec/front/order/basket/";
     form.target = "_blank";
 
-    // 필수: 상품 번호
     const productNoInput = document.createElement("input");
     productNoInput.type = "hidden";
     productNoInput.name = "product_no";
-    productNoInput.value = "10"; // 실제 상품 번호
+    productNoInput.value = "10";
     form.appendChild(productNoInput);
 
-    // 옵션 타입: 일반 옵션 = "1"
     const optionTypeInput = document.createElement("input");
     optionTypeInput.type = "hidden";
     optionTypeInput.name = "option_type";
     optionTypeInput.value = "1";
     form.appendChild(optionTypeInput);
 
-    // 옵션 코드들
     [collarCode, sleeveCode, buttonCode].forEach((code) => {
       const input = document.createElement("input");
       input.type = "hidden";
-      input.name = "selected_option[]"; // 또는 option_code[]
+      input.name = "selected_option[]";
       input.value = code;
       form.appendChild(input);
     });
 
-    // 수량
     const qtyInput = document.createElement("input");
     qtyInput.type = "hidden";
     qtyInput.name = "quantity";
@@ -49,6 +53,9 @@ function App() {
   return (
     <div className="App">
       <h1>셔츠 커스터마이징</h1>
+
+      {/* 옵션에 따른 이미지 출력 */}
+      <img src={getImage()} alt="셔츠 미리보기" style={{ width: "300px", height: "auto" }} />
 
       <div>
         <h3>카라</h3>
