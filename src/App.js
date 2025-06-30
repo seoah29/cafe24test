@@ -1,78 +1,82 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 function App() {
-  const [collarCode, setCollarCode] = useState("O000000E");
-  const [sleeveCode, setSleeveCode] = useState("O000000D");
-  const [buttonCode, setButtonCode] = useState("O000000C");
+  const [collar, setCollar] = useState("default");
+  const [sleeve, setSleeve] = useState("default");
+  const [button, setButton] = useState("default");
 
-  const getImage = () => {
-    // 옵션에 따라 이미지 파일명 결정
-    if (collarCode === "O000000E") return "/images/collar1.png";
-    if (sleeveCode === "O000000D") return "/images/sleeve1.png";
-    if (buttonCode === "O000000C") return "/images/button1.png";
-    return "/images/base_shirt.png";
-  };
-
-  const handleAddToCart = () => {
-    const form = document.createElement("form");
-    form.method = "POST";
-    form.action = "https://seoah29.cafe24.com/exec/front/order/basket/";
-    form.target = "_blank";
-
-    const productNoInput = document.createElement("input");
-    productNoInput.type = "hidden";
-    productNoInput.name = "product_no";
-    productNoInput.value = "10";
-    form.appendChild(productNoInput);
-
-    const optionTypeInput = document.createElement("input");
-    optionTypeInput.type = "hidden";
-    optionTypeInput.name = "option_type";
-    optionTypeInput.value = "1";
-    form.appendChild(optionTypeInput);
-
-    [collarCode, sleeveCode, buttonCode].forEach((code) => {
-      const input = document.createElement("input");
-      input.type = "hidden";
-      input.name = "selected_option[]";
-      input.value = code;
-      form.appendChild(input);
-    });
-
-    const qtyInput = document.createElement("input");
-    qtyInput.type = "hidden";
-    qtyInput.name = "quantity";
-    qtyInput.value = "1";
-    form.appendChild(qtyInput);
-
-    document.body.appendChild(form);
-    form.submit();
-    document.body.removeChild(form);
+  const getImage = (part, value) => {
+    if (value === "default") return null;
+    return `/images/${part}${value}.png`;
   };
 
   return (
-    <div className="App">
-      <h1>셔츠 커스터마이징</h1>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+      <h1 className="text-2xl font-bold mb-4">Shirt Customizer</h1>
 
-      {/* 옵션에 따른 이미지 출력 */}
-      <img src={getImage()} alt="셔츠 미리보기" style={{ width: "300px", height: "auto" }} />
-
-      <div>
-        <h3>카라</h3>
-        <button onClick={() => setCollarCode("O000000E")}>기본 카라</button>
+      <div className="relative w-[300px] h-[500px]">
+        <img
+          src="/images/base_shirt.png"
+          alt="Base Shirt"
+          className="absolute top-0 left-0 w-full h-full object-contain"
+        />
+        {getImage("collar", collar) && (
+          <img
+            src={getImage("collar", collar)}
+            alt="Collar"
+            className="absolute top-0 left-0 w-full h-full object-contain"
+          />
+        )}
+        {getImage("sleeve", sleeve) && (
+          <img
+            src={getImage("sleeve", sleeve)}
+            alt="Sleeve"
+            className="absolute top-0 left-0 w-full h-full object-contain"
+          />
+        )}
+        {getImage("button", button) && (
+          <img
+            src={getImage("button", button)}
+            alt="Button"
+            className="absolute top-0 left-0 w-full h-full object-contain"
+          />
+        )}
       </div>
 
-      <div>
-        <h3>소매</h3>
-        <button onClick={() => setSleeveCode("O000000D")}>기본 소매</button>
-      </div>
+      <div className="mt-6 flex gap-4">
+        <div>
+          <label className="block text-sm font-semibold">Collar</label>
+          <select
+            className="p-2 border rounded"
+            onChange={(e) => setCollar(e.target.value)}
+          >
+            <option value="default">기본</option>
+            <option value="1">단추 카라</option>
+          </select>
+        </div>
 
-      <div>
-        <h3>단추</h3>
-        <button onClick={() => setButtonCode("O000000C")}>기본 단추</button>
-      </div>
+        <div>
+          <label className="block text-sm font-semibold">Sleeve</label>
+          <select
+            className="p-2 border rounded"
+            onChange={(e) => setSleeve(e.target.value)}
+          >
+            <option value="default">기본</option>
+            <option value="1">장식 소매</option>
+          </select>
+        </div>
 
-      <button onClick={handleAddToCart}>장바구니 담기</button>
+        <div>
+          <label className="block text-sm font-semibold">Button</label>
+          <select
+            className="p-2 border rounded"
+            onChange={(e) => setButton(e.target.value)}
+          >
+            <option value="default">기본</option>
+            <option value="1">별 단추</option>
+          </select>
+        </div>
+      </div>
     </div>
   );
 }
