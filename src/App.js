@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import "./App.css";
 
 function App() {
-  const [collar, setCollar] = useState("collar1.png");
-  const [sleeve, setSleeve] = useState("sleeve1.png");
+  const [collarCode, setCollarCode] = useState("O000000E");
+  const [sleeveCode, setSleeveCode] = useState("O000000D");
+  const [buttonCode, setButtonCode] = useState("O000000C");
 
   const handleAddToCart = () => {
     const form = document.createElement("form");
@@ -11,29 +12,24 @@ function App() {
     form.action = "https://seoah29.cafe24.com/exec/front/order/basket/";
     form.target = "_blank";
 
-    const productNo = document.createElement("input");
-    productNo.type = "hidden";
-    productNo.name = "product_no";
-    productNo.value = "10";
-    form.appendChild(productNo);
+    const productNoInput = document.createElement("input");
+    productNoInput.name = "product_no";
+    productNoInput.value = "10"; // 상품 번호
+    form.appendChild(productNoInput);
 
-    const option1 = document.createElement("input");
-    option1.type = "hidden";
-    option1.name = "option_code[]";
-    option1.value = sleeve === "sleeve1.png" ? "O000000D" : "O000000E";
-    form.appendChild(option1);
+    // 옵션 코드들 삽입
+    [collarCode, sleeveCode, buttonCode].forEach((code) => {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = "option_code[]";
+      input.value = code;
+      form.appendChild(input);
+    });
 
-    const option2 = document.createElement("input");
-    option2.type = "hidden";
-    option2.name = "option_code[]";
-    option2.value = collar === "collar1.png" ? "O000000C" : "O000000F";
-    form.appendChild(option2);
-
-    const quantity = document.createElement("input");
-    quantity.type = "hidden";
-    quantity.name = "quantity";
-    quantity.value = "1";
-    form.appendChild(quantity);
+    const qtyInput = document.createElement("input");
+    qtyInput.name = "quantity";
+    qtyInput.value = "1";
+    form.appendChild(qtyInput);
 
     document.body.appendChild(form);
     form.submit();
@@ -44,39 +40,22 @@ function App() {
     <div className="App">
       <h1>셔츠 커스터마이징</h1>
 
-      {/* 이미지 겹치기 */}
-      <div style={{ position: "relative", width: 300, height: 400 }}>
-        <img
-          src="/base_shirt.png"
-          alt="Base"
-          style={{ position: "absolute", top: 0, left: 0, width: "100%" }}
-        />
-        <img
-          src={`/${collar}`}
-          alt="Collar"
-          style={{ position: "absolute", top: 0, left: 0, width: "100%" }}
-        />
-        <img
-          src={`/${sleeve}`}
-          alt="Sleeve"
-          style={{ position: "absolute", top: 0, left: 0, width: "100%" }}
-        />
+      <div>
+        <h3>카라</h3>
+        <button onClick={() => setCollarCode("O000000E")}>기본 카라</button>
       </div>
 
       <div>
-        <h3>소매 선택</h3>
-        <button onClick={() => setSleeve("sleeve1.png")}>긴소매</button>
-        <button onClick={() => setSleeve("sleeve2.png")}>반소매</button>
-      </div>
-      <div>
-        <h3>카라 선택</h3>
-        <button onClick={() => setCollar("collar1.png")}>기본카라</button>
-        <button onClick={() => setCollar("collar2.png")}>단추카라</button>
+        <h3>소매</h3>
+        <button onClick={() => setSleeveCode("O000000D")}>기본 소매</button>
       </div>
 
       <div>
-        <button onClick={handleAddToCart}>장바구니 담기</button>
+        <h3>단추</h3>
+        <button onClick={() => setButtonCode("O000000C")}>기본 단추</button>
       </div>
+
+      <button onClick={handleAddToCart}>장바구니 담기</button>
     </div>
   );
 }
