@@ -10,7 +10,7 @@ function App() {
     if (collarCode === "O000000E") return "/images/collar1.png";
     if (sleeveCode === "O000000D") return "/images/sleeve1.png";
     if (buttonCode === "O000000C") return "/images/button1.png";
-    return "/base_shirt.png";
+    return "/images/base_shirt.png";
   };
 
   const handleAddToCart = () => {
