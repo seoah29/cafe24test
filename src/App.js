@@ -7,9 +7,9 @@ function App() {
 
   const getImage = () => {
     // 옵션에 따라 이미지 파일명 결정
-    if (collarCode === "O000000E") return "/collar1.png";
-    if (sleeveCode === "O000000D") return "/sleeve1.png";
-    if (buttonCode === "O000000C") return "/button1.png";
+    if (collarCode === "O000000E") return "/images/collar1.png";
+    if (sleeveCode === "O000000D") return "/images/sleeve1.png";
+    if (buttonCode === "O000000C") return "/images/button1.png";
     return "/base_shirt.png";
   };
 
