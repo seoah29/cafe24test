@@ -33,7 +33,9 @@ function App() {
 
     const form = document.createElement("form");
     form.method = "POST";
-    form.action = "https://seoah29.cafe24.com/exec/front/order/basket/";
+    form.action = "https://seoah29.cafe24.com/order/basket.html";
+    
+    //https://seoah29.cafe24.com/exec/front/order/basket/
     form.target = "_blank";
 
     const productNoInput = document.createElement("input");
