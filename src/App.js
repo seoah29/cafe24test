@@ -1,36 +1,84 @@
+import { useState } from "react";
 
-import React, { useState } from 'react';
+function App() {
+  const [collar, setCollar] = useState("default");
+  const [sleeve, setSleeve] = useState("default");
+  const [button, setButton] = useState("default");
 
-const App = () => {
-  const [selectedCollar, setSelectedCollar] = useState('basic');
-
-  const getImage = () => {
-    switch (selectedCollar) {
-      case 'button':
-        return '/images/collar-button.png';
-      default:
-        return '/images/collar-basic.png';
-    }
-  };
-
-  const handleCart = () => {
-    const shopId = 'yourshop'; // 너의 Cafe24 shop ID로 바꾸세요
-    const productNo = 123;     // 상품 번호로 바꾸세요
-    const url = `https://${shopId}.cafe24.com/exec/front/Order/cart/?command=add&product_no=${productNo}&quantity=1&option1=${selectedCollar}`;
-    window.location.href = url;
+  const getImage = (part, value) => {
+    if (value === "default") return null;
+    return `/images/${part}${value}.png`;
   };
 
   return (
-    <div style={{ textAlign: 'center', padding: '20px' }}>
-      <h2>셔츠 커스터마이징</h2>
-      <img src={getImage()} alt="Shirt Preview" width="300" />
-      <div style={{ marginTop: '20px' }}>
-        <button onClick={() => setSelectedCollar('basic')}>기본 카라</button>
-        <button onClick={() => setSelectedCollar('button')}>단추 카라</button>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+      <h1 className="text-2xl font-bold mb-4">Shirt Customizer</h1>
+
+      <div className="relative w-[300px] h-[500px]">
+        <img
+          src="/images/base_shirt.png"
+          alt="Base Shirt"
+          className="absolute top-0 left-0 w-full h-full object-contain"
+        />
+        {getImage("collar", collar) && (
+          <img
+            src={getImage("collar", collar)}
+            alt="Collar"
+            className="absolute top-0 left-0 w-full h-full object-contain"
+          />
+        )}
+        {getImage("sleeve", sleeve) && (
+          <img
+            src={getImage("sleeve", sleeve)}
+            alt="Sleeve"
+            className="absolute top-0 left-0 w-full h-full object-contain"
+          />
+        )}
+        {getImage("button", button) && (
+          <img
+            src={getImage("button", button)}
+            alt="Button"
+            className="absolute top-0 left-0 w-full h-full object-contain"
+          />
+        )}
       </div>
-      <button style={{ marginTop: '20px' }} onClick={handleCart}>장바구니 담기</button>
+
+      <div className="mt-6 flex gap-4">
+        <div>
+          <label className="block text-sm font-semibold">Collar</label>
+          <select
+            className="p-2 border rounded"
+            onChange={(e) => setCollar(e.target.value)}
+          >
+            <option value="default">기본</option>
+            <option value="1">단추 카라</option>
+          </select>
+        </div>
+
+        <div>
+          <label className="block text-sm font-semibold">Sleeve</label>
+          <select
+            className="p-2 border rounded"
+            onChange={(e) => setSleeve(e.target.value)}
+          >
+            <option value="default">기본</option>
+            <option value="1">장식 소매</option>
+          </select>
+        </div>
+
+        <div>
+          <label className="block text-sm font-semibold">Button</label>
+          <select
+            className="p-2 border rounded"
+            onChange={(e) => setButton(e.target.value)}
+          >
+            <option value="default">기본</option>
+            <option value="1">별 단추</option>
+          </select>
+        </div>
+      </div>
     </div>
   );
-};
+}
 
 export default App;
